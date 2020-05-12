@@ -1,49 +1,138 @@
-<div class="app-body">
-  <main class="main d-flex align-items-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div class="card-group">
-            <div class="card p-4">
-              <div class="card-body">
-                <form>
-                  <h1>Login</h1>
-                  <p class="text-muted">Sign In to your account</p>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="icon-user"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Username" autocomplete="username" required>
-                  </div>
-                  <div class="input-group mb-4">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="icon-lock"></i></span>
-                    </div>
-                    <input type="password" class="form-control" placeholder="Password" autocomplete="current-password" required>
-                  </div>
-                  <div class="row">
-                    <div class="col-6">
-                      <button type="button" class="btn btn-primary px-4">Login</button>
-                    </div>
-                    <div class="col-6 text-right">
-                      <button type="button" class="btn btn-link px-0">Forgot password?</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card-body">
+        <form
+          (ngSubmit)="onSubmit()"
+          [formGroup]="loginForm"
+          class="main-form needs-validation"
+          novalidate
+        >
+          <h1>Já possui cadastro ?</h1>
+          <p class="text-muted">Para continuar, efetue login ou registre-se.</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="icon-user"></i></span>
             </div>
-            <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
-              <div class="card-body text-center">
-                <div>
-                  <h2>Sign up</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <button type="button" class="btn btn-primary active mt-3">Register Now!</button>
-                </div>
-              </div>
-            </div>
+            <input
+              [ngClass]="{
+                'is-invalid': loginForm.get('eMail').invalid,
+                'is-valid': loginForm.get('eMail').valid
+              }"
+              class="form-control"
+              required
+              type="email"
+              formControlName="eMail"
+              placeholder="E-mail"
+              [(ngModel)]="cliente.email"
+              name="email"
+            />
           </div>
-        </div>
+          <div
+            *ngIf="loginForm.get('eMail').errors?.required"
+            class="alert alert-danger"
+          >
+            Por favor digite seu email.
+          </div>
+          <div
+            *ngIf="loginForm.get('eMail').errors?.email"
+            class="alert alert-danger"
+          >
+            Por favor digite um e-mail válido !
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="icon-lock"></i></span>
+            </div>
+            <input
+              [ngClass]="{
+                'is-invalid': loginForm.get('password').invalid,
+                'is-valid': loginForm.get('password').valid
+              }"
+              class="form-control"
+              required
+              type="password"
+              formControlName="password"
+              placeholder="Senha"
+              [(ngModel)]="cliente.password"
+              name="password"
+            />
+          </div>
+          <div
+            *ngIf="loginForm.get('password').errors?.required"
+            class="alert alert-danger"
+          >
+            Por favor digite sua senha.
+          </div>
+          <div class="row justify-content-between">
+            <div class="col text-right">
+              Ainda não é nosso cliente?<br />
+              Crie sua conta
+              <span style="color: crimson;" (click)="formClient()"
+                >clicando aqui !</span
+              >
+            </div>
+            <div class="col text-right">
+              <button
+                [disabled]="loginForm.invalid"
+                type="submit"
+                class="btn btn-primary px-3"
+              >
+                Login
+              </button>
+            </div>
+            <ngx-loading
+              [show]="loading"
+              [config]="{
+                animationType: ngxLoadingAnimationTypes.wanderingCubes,
+                backdropBorderRadius: '3px',
+                fullScreenBackdrop: true
+              }"
+            ></ngx-loading>
+          </div>
+        </form>
       </div>
     </div>
-  </main>
+  </div>
 </div>
+
+<div
+  bsModal
+  #dangerModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">E-mail ou senha inválido</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="dangerModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Não foi encontrado nenhum cliente com o e-mail/senha fornecido.</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="dangerModal.hide()"
+        >
+          Fechar
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

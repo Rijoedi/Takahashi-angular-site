@@ -1,0 +1,229 @@
+<div class="text-left">
+
+        <div class="form-group col-md-12">
+        <label>Possuí amigos e familiares que trabalham na Takahashi assessoria ?</label>
+          <div class="form-check" *ngFor="let op of listOfOptions">
+            <input class="form-check-input" type="radio" [(ngModel)]="cliente.conhecidosNaLiberdadeRh" name="conhecidosNaLiberdadeRh" id="conhecidos_{{op.name}}" [value]="op.value">
+            <label class="form-check-label" for="conhecidos_{{op.name}}">{{ op.name }}</label>
+        </div>
+        </div> 
+
+        <div class="form-group col-md-12">
+          <label for="conheceuPorOnde">Encontrou a Takahashi assessoria através de ?</label>
+          <input class="form-control" id="conheceuPorOnde" placeholder="Ex: facebook" [(ngModel)]="cliente.conheceuPorOnde" name="conheceuPorOnde" />
+        </div>
+          
+        <div class="form-group col-md-12">
+            <label for="shakaiHoken">Está inscrito no shakai hoken ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.shakaiHoken" name="shakaiHoken" id="shakaiHoken_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="shakaiHoken_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="seguroDesemprego">Já esteve inscrito no seguro desemprego ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.seguroDesemprego" name="seguroDesemprego" id="seguroDesemprego_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="seguroDesemprego_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+            
+        <div class="form-group col-md-12">
+            <label for="outraLinguas">Conhece outras línguas estrangeiras ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.outraLinguas" name="outraLinguas" id="outraLinguas_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="outraLinguas_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+         <div class="form-group col-md-12" *ngIf="cliente.outraLinguas == true">
+          <label for="outrasLinguasRendered">Quais ?</label>
+          <input class="form-control" id="outrasLinguasRendered" name="outrasLinguasRendered" placeholder="Ex: Espanhol" [(ngModel)]="cliente.outrasLinguasRendered"/>
+        </div>           
+
+        <div class="form-group col-md-12">
+            <label for="tempoJapao">Por quanto tempo pretende ficar no japao ?</label>
+              <div class="form-check" *ngFor="let op of tempoJapaoOption">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.tempoJapao" name="tempoJapao" id="tempoJapao_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="tempoJapao_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+
+        <div class="form-group col-md-12">
+            <label for="preferenciaRegiao">Tem preferência por região de trabalho ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.preferenciaRegiao" name="preferenciaRegiao" id="preferenciaRegiao_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="preferenciaRegiao_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+         <div class="form-group col-md-12" *ngIf="cliente.preferenciaRegiao == true">
+          <label for="preferenciaRegiaoRendered">Qual ?</label>
+          <input class="form-control" id="preferenciaRegiaoRendered" name="preferenciaRegiaoRendered" placeholder="Ex: Aichi"  [(ngModel)]="cliente.preferenciaRegiaoRendered"/>
+        </div>   
+
+        <div class="form-group col-md-12">
+            <label for="mudanca">Tem disponibilidade para mudança ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.mudanca" name="mudanca" id="mudanca_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="mudanca_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="tatoo">Possui alguma tatuagem ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.tatoo" name="tatoo" id="tatoo_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="tatoo_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12" *ngIf="cliente.tatoo == true">
+          <label for="tatooRendered">Quantas ? Onde ?</label>
+          <input class="form-control" id="tatooRendered" name="tatooRendered" placeholder="Ex: 1 / Costas"  [(ngModel)]="cliente.tatooRendered"/>
+        </div>  
+
+
+        <div class="form-group col-md-12">
+            <label for="bebidasAlcoolicas">Aprecia bebidas alcóolicas ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.bebidasAlcoolicas" name="bebidasAlcoolicas" id="bebidasAlcoolicas_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="bebidasAlcoolicas_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="divida">Possui alguma dívida financeira ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.divida" name="divida" id="divida_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="divida_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="problemaPolicialJapao">Já esteve em distrito policial no Japão ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.problemaPolicialJapao" name="problemaPolicialJapao" id="problemaPolicialJapao_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="problemaPolicialJapao_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="destroCanhoto">Destro ou canhoto ?</label>
+              <div class="form-check" *ngFor="let op of detroCanhotoOp">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.destroCanhoto" name="destroCanhoto" id="destroCanhoto_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="destroCanhoto_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="dautonico">Sabe distinguir bem as cores ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.dautonico" name="dautonico" id="dautonico_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="dautonico_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="alergia">Possui algum tipo de alergia ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.alergia" name="alergia" id="alergia_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="alergia_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+         <div class="form-group col-md-12" *ngIf="cliente.alergia == true">
+          <label for="alergiaRendered">Qual ?</label>
+          <input class="form-control" id="alergiaRendered" name="alergiaRendered" placeholder="Ex: Rinite"  [(ngModel)]="cliente.alergiaRendered"/>
+        </div>             
+
+        <div class="form-group col-md-12">
+            <label for="doencaGrave">Tem ou teve alguma doença grave ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.doencaGrave" name="doencaGrave" id="doencaGrave_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="doencaGrave_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="deficienciaFisica">Possui alguma deficiência física ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.deficienciaFisica" name="deficienciaFisica" id="deficienciaFisica_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="deficienciaFisica_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="tomaRemedio">Toma remédio regularmente ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.tomaRemedio" name="tomaRemedio" id="tomaRemedio_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="tomaRemedio_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="problemaDeVista">Possui problema de vista ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.problemaDeVista" name="problemaDeVista" id="problemaDeVista_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="problemaDeVista_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="problemaColuna">Possui problema na coluna ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.problemaColuna" name="problemaColuna" id="problemaColuna_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="problemaColuna_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="fumante">Fumante ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.fumante" name="fumante" id="fumante_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="fumante_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="gravida">Está gravida ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.gravida" name="gravida" id="gravida_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="gravida_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+        <div class="form-group col-md-12">
+            <label for="diabete">Tem diabete ?</label>
+              <div class="form-check" *ngFor="let op of listOfOptions">
+                <input class="form-check-input" type="radio" [(ngModel)]="cliente.diabete" name="diabete" id="diabete_{{op.name}}" [value]="op.value">
+                <label class="form-check-label" for="diabete_{{op.name}}">{{ op.name }}</label>
+              </div>
+            </div>
+        <div>
+
+    <button type="button" class="btn btn-danger btn-block" (click)="proximo()">Próximo</button>
+    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px', fullScreenBackdrop:true }" ></ngx-loading>
+</div>

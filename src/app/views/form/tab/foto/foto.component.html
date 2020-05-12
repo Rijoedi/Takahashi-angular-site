@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">Foto para a ficha de cadastro</h4>
+        <div>
+          <webcam
+            [height]="500"
+            [width]="500"
+            [trigger]="triggerObservable"
+            (imageCapture)="handleImage($event)"
+            *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch"
+            [switchCamera]="nextWebcamObservable"
+            [videoOptions]="videoOptions"
+            [imageQuality]="0.5"
+            (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"
+          ></webcam>
+          <button
+            *ngIf="showWebcam"
+            type="button"
+            class="btn btn-danger btn-block"
+            (click)="triggerSnapshot()"
+          >
+            Tirar foto
+          </button>
+          <div class="snapshot" style="margin: 20px;" *ngIf="webcamImage">
+            <img [src]="webcamImage.imageAsDataUrl" />
+          </div>
+          <div class="snapshot" style="margin: 20px;" *ngIf="!webcamImage">
+            <img [src]="linkPicture" [height]="500" [width]="500" />
+          </div>
+          <button
+            *ngIf="fileToUpload"
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="uploadExistingFile()"
+          >
+            Escolher essa foto
+          </button>
+          <button
+            *ngIf="fileToUpload"
+            type="button"
+            class="btn btn-danger btn-block"
+            (click)="setLinkPicture()"
+          >
+            voltar a foto antiga
+          </button>
+          <button
+            *ngIf="webcamImage"
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="uploadImage64(webcamImage.imageAsDataUrl)"
+          >
+            Escolher essa foto
+          </button>
+          <button
+            *ngIf="webcamImage"
+            type="button"
+            class="btn btn-danger btn-block"
+            (click)="showWebcamBtn()"
+          >
+            Tirar outra foto
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <label for="file-upload" class="custom-file-upload col-lg-12 btn-danger">
+    <i class="fa fa-cloud-upload"></i>Escolher uma foto existente
+  </label>
+  <input
+    id="file-upload"
+    type="file"
+    accept="image/*"
+    (change)="previewFromFile($event.target.files)"
+  />
+  <button
+    type="button"
+    *ngIf="!webcamImage && !showWebcam"
+    class="btn btn-danger btn-block"
+    (click)="showWebcamBtn()"
+  >
+    Abrir câmera
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger btn-block"
+    (click)="openConfirmModal()"
+  >
+    Salvar
+  </button>
+  <ngx-loading
+    [show]="loading"
+    [config]="{
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+</div>
+
+<div
+  bsModal
+  #confirmModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ ignoreBackdropClick: true, keyboard: false }"
+>
+  <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          (click)="confirmModal.hide()"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,283 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">Familiares Cadastrados</h4>
+        <div *ngFor="let familiar of familiares">
+            <ul class="list-group list-group-flush text-left">
+              <li class="list-group-item">Nome: {{ familiar.nome }}</li>
+              <li class="list-group-item">Idade: {{ familiar.idade }}</li>
+              <li class="list-group-item">
+                Parentesco: {{ familiar.parentesco }}
+              </li>
+              <li class="list-group-item">
+                Residência: {{ familiar.residente }}
+              </li>
+              <li class="list-group-item" *ngIf="familiar.flReferencia == true">
+                Referência?: Sim
+              </li>
+              <li class="list-group-item" *ngIf="familiar.flReferencia == true">
+                Telefone: {{ familiar.telefone }}
+              </li>
+              <li class="list-group-item" *ngIf="familiar.flReferencia == true">
+                Endereço: {{ familiar.endereco }}
+              </li>
+              <button
+                class="btn btn-danger"
+                (click)="messageDelete(familiar.id)">
+                <span class="cil-contrast btn-icon mr-2"></span> Deletar
+              </button>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn btn-danger btn-block"
+    (click)="open_modal_adicionar()"
+  >
+    Adicionar Familiar
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger btn-block"
+    (click)="stepUtil.proximoPasso()"
+  >
+    Próximo
+  </button>
+  <ngx-loading
+    [show]="loading"
+    [config]="{
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+</div>
+
+<div
+  bsModal
+  #familiarModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-danger modal-dialog-centered modal-lg"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" (click)="dismiss('fechar')">
+          Adicionar familiar
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="27.999"
+            viewBox="0 0 28 27.999"
+          >
+            <path
+              data-name="Caminho 47"
+              d="M16.476,14,27.487,2.99A1.751,1.751,0,0,0,25.011.514L14,11.525,2.989.514A1.751,1.751,0,0,0,.513,2.99L11.524,14,.513,25.011a1.751,1.751,0,1,0,2.476,2.475L14,16.476,25.011,27.487a1.751,1.751,0,0,0,2.476-2.476Z"
+              transform="translate(0 -0.001)"
+              fill="#fff"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="form-group col-sm-6" [formGroup]="familiarForm">
+              <label for="nomeCompleto">Nome</label>
+              <input
+                [ngClass]="{
+                  'is-invalid': familiarForm.get('nomeCompleto').invalid,
+                  'is-valid': familiarForm.get('nomeCompleto').valid
+                }"
+                class="form-control"
+                id="nomeCompleto"
+                formControlName="nomeCompleto"
+                required
+                placeholder="Leandro Takahashi"
+                [(ngModel)]="familiar.nome"
+                name="nome"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="familiarForm.get('nomeCompleto').errors?.required"
+              >
+                Por favor informe o nome do familiar.
+              </div>
+            </div>
+            <div class="form-group col-sm-6" [formGroup]="familiarForm">
+              <label for="parentesco">Parentesco</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': familiarForm.get('parentesco').invalid,
+                  'is-valid': familiarForm.get('parentesco').valid
+                }"
+                class="form-control"
+                [(ngModel)]="familiar.parentesco"
+                formControlName="parentesco"
+                name="parentesco"
+                id="parentesco"
+              >
+                <option
+                  *ngFor="let parente of parentes"
+                  [value]="parente.value"
+                  >{{ parente.name }}</option
+                >
+              </select>
+              <div
+                class="alert alert-danger"
+                *ngIf="familiarForm.get('parentesco').errors?.required"
+              >
+                Por favor sua relação com a pessoa.
+              </div>
+            </div>
+            <div class="form-group col-sm-6" [formGroup]="familiarForm">
+              <label for="idade">Idade</label>
+              <input
+                [ngClass]="{
+                  'is-invalid': familiarForm.get('idade').invalid,
+                  'is-valid': familiarForm.get('idade').valid
+                }"
+                class="form-control"
+                id="idade"
+                formControlName="idade"
+                required
+                placeholder="Idade"
+                maxlength="3"
+                pattern="[0-9]*"
+                [(ngModel)]="familiar.idade"
+                name="idade"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="familiarForm.get('idade').errors?.required"
+              >
+                Por favor informe a idade do familiar.
+              </div>
+              <div
+                class="alert alert-danger"
+                *ngIf="familiarForm.get('idade').errors?.pattern"
+              >
+                Por favor informe somente números.
+              </div>
+            </div>
+            <div class="form-group col-sm-6" [formGroup]="familiarForm">
+              <label for="residente">Residência</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': familiarForm.get('residencia').invalid,
+                  'is-valid': familiarForm.get('residencia').valid
+                }"
+                class="form-control"
+                [(ngModel)]="familiar.residente"
+                formControlName="residencia"
+                name="residente"
+                id="residente"
+              >
+                <option *ngFor="let l of lugares" [value]="l.value">{{
+                  l.name
+                }}</option>
+              </select>
+              <div
+                class="alert alert-danger"
+                *ngIf="familiarForm.get('residencia').errors?.required"
+              >
+                Por favor informe o lugar de residência do familiar.
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <input
+                type="checkbox"
+                class="form-control"
+                name="flReferencia"
+                [(ngModel)]="familiar.flReferencia"
+              />
+              <label class="form-check-label" for="flUltimoEmprego"
+                >Referência?</label
+              >
+            </div>
+
+            <div
+              class="form-group col-sm-6"
+              [formGroup]="familiarForm"
+              *ngIf="familiar.flReferencia == true"
+            >
+              <label for="telefone">Telefone</label>
+              <input
+                class="form-control"
+                id="telefone"
+                placeholder="Telefone"
+                formControlName="telefone"
+                pattern="[0-9]*"
+                [(ngModel)]="familiar.telefone"
+                name="telefone"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="familiarForm.get('telefone').errors?.pattern"
+              >
+                Por favor informe somente números.
+              </div>
+            </div>
+
+            <div
+              class="form-group col-sm-6"
+              *ngIf="familiar.flReferencia == true"
+            >
+              <label for="endereco">Endereço</label>
+              <input
+                class="form-control"
+                id="endereco"
+                placeholder="Endereço"
+                [(ngModel)]="familiar.endereco"
+                name="endereco"
+              />
+            </div>
+
+            <div class="form-group col-md-12 text-right">
+              <button class="btn btn-danger" (click)="dismiss('salvar')">
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div
+  bsModal
+  #confirmModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ignoreBackdropClick: true, keyboard: false}"
+  id="language"
+>
+  <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="confirmModal.hide()" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" (click)="delete(id)" class="btn btn-primary btn-danger">Deletar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,25 @@
-// Here you can add other styles
+.intl-tel-input {
+  width: 100% !important;
+}
+
+
+.language_button {
+  display: block;
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  background: transparent;
+  box-shadow:0 0 0 2px black;
+  filter: drop-shadow(0 0 0.65rem black);
+  margin: 0 10px;
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}

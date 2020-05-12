@@ -1,0 +1,383 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">Empregos Cadastrados</h4>
+        <div *ngFor="let emprego of empregos">
+          <ul class="list-group list-group-flush text-left">
+            <li class="list-group-item">
+              Empresa: {{ emprego.localTrabalho }}
+            </li>
+            <li class="list-group-item">
+              Local trabalho: {{ emprego.tipoLocalTrabalho }}
+            </li>
+            <li class="list-group-item">Ocupação: {{ emprego.ocupacao }}</li>
+            <li class="list-group-item">
+              Mês inicial: {{ emprego.mesInicial }}
+            </li>
+            <li class="list-group-item">
+              Ano inicial: {{ emprego.anoInicial }}
+            </li>
+            <li class="list-group-item">Mês final: {{ emprego.mesFinal }}</li>
+            <li class="list-group-item">Ano final: {{ emprego.anoFinal }}</li>
+            <li class="list-group-item">País: {{ emprego.pais }}</li>
+            <li class="list-group-item" *ngIf="emprego.flUltimoEmprego == true">
+              Ultimo Emprego?: Sim
+            </li>
+            <li class="list-group-item" *ngIf="emprego.flUltimoEmprego == true">
+              Último salário: {{ emprego.ultimoSalario }}
+            </li>
+            <li class="list-group-item" *ngIf="emprego.flUltimoEmprego == true">
+              Motivo da saída: {{ emprego.motivoSaida }}
+            </li>
+            <button class="btn btn-danger" (click)="messageDelete(emprego.id)">
+              <span class="cil-contrast btn-icon mr-2"></span> Deletar
+            </button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn btn-danger btn-block"
+    (click)="open_modal_adicionar()"
+  >
+    Adicionar Emprego
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger btn-block"
+    (click)="stepUtil.proximoPasso()"
+  >
+    Próximo
+  </button>
+  <ngx-loading
+    [show]="loading"
+    [config]="{
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+</div>
+
+<div
+  bsModal
+  #empregoModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-danger modal-dialog-centered modal-lg"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" (click)="dismiss('fechar')">
+          Adicionar Empregos
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="27.999"
+            viewBox="0 0 28 27.999"
+          >
+            <path
+              data-name="Caminho 47"
+              d="M16.476,14,27.487,2.99A1.751,1.751,0,0,0,25.011.514L14,11.525,2.989.514A1.751,1.751,0,0,0,.513,2.99L11.524,14,.513,25.011a1.751,1.751,0,1,0,2.476,2.475L14,16.476,25.011,27.487a1.751,1.751,0,0,0,2.476-2.476Z"
+              transform="translate(0 -0.001)"
+              fill="#fff"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="form-group col-sm-6" [formGroup]="empregoForm">
+              <label for="localTrabalho"
+                >Local de trabalho (Nome da empresa)</label
+              >
+              <input
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('localTrabalho').invalid,
+                  'is-valid': empregoForm.get('localTrabalho').valid
+                }"
+                class="form-control"
+                formControlName="localTrabalho"
+                id="localTrabalho"
+                required
+                placeholder="Local de trabalho"
+                name="localTrabalho"
+                [(ngModel)]="emprego.localTrabalho"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('localTrabalho').errors?.required"
+              >
+                Por favor informe o local de trabalho.
+              </div>
+            </div>
+            <div class="form-group col-sm-6" [formGroup]="empregoForm">
+              <label for="ocupacao">Ocupação</label>
+              <input
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('ocupacao').invalid,
+                  'is-valid': empregoForm.get('ocupacao').valid
+                }"
+                class="form-control"
+                formControlName="ocupacao"
+                id="ocupacao"
+                required
+                [(ngModel)]="emprego.ocupacao"
+                name="ocupacao"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('ocupacao').errors?.required"
+              >
+                Por favor informe qual ocupação você realizou.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6" [formGroup]="empregoForm">
+              <label for="tipoLocalTrabalho">Tipo de contrato</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('tipoContrato').invalid,
+                  'is-valid': empregoForm.get('tipoContrato').valid
+                }"
+                class="form-control"
+                [(ngModel)]="emprego.tipoLocalTrabalho"
+                formControlName="tipoContrato"
+                name="tipoLocalTrabalho"
+                id="tipoLocalTrabalho"
+              >
+                <option *ngFor="let t of tipoContrato" [value]="t.value">{{
+                  t.name
+                }}</option>
+              </select>
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('tipoContrato').errors?.required"
+              >
+                Por favor informe o tipo de contrato.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6" [formGroup]="empregoForm">
+              <label for="pais">País</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('pais').invalid,
+                  'is-valid': empregoForm.get('pais').valid
+                }"
+                class="form-control"
+                [(ngModel)]="emprego.pais"
+                formControlName="pais"
+                name="pais"
+                id="pais"
+              >
+                <option *ngFor="let p of paises" [value]="p.value">{{
+                  p.name
+                }}</option>
+              </select>
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('pais').errors?.required"
+              >
+                Por favor informe o pais em que trabalhou.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6" [formGroup]="empregoForm">
+              <label for="mesInicial">Mês inicial</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('mesInicial').invalid,
+                  'is-valid': empregoForm.get('mesInicial').valid
+                }"
+                class="form-control"
+                [(ngModel)]="emprego.mesInicial"
+                formControlName="mesInicial"
+                name="mesInicial"
+                id="mesInicial"
+              >
+                <option *ngFor="let m of meses" [value]="m.value">{{
+                  m.name
+                }}</option>
+              </select>
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('mesInicial').errors?.required"
+              >
+                Por favor informe o mês que começou trabalhar.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6" [formGroup]="empregoForm">
+              <label for="anoInicial">Ano inicial</label>
+              <input
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('anoInicial').invalid,
+                  'is-valid': empregoForm.get('anoInicial').valid
+                }"
+                class="form-control"
+                formControlName="anoInicial"
+                pattern="[0-9]*"
+                maxlength="4"
+                required
+                placeholder="Ano"
+                [(ngModel)]="emprego.anoInicial"
+                name="anoInicial"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('anoInicial').errors?.required"
+              >
+                Por favor informe o ano que começou trabalhar.
+              </div>
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('anoInicial').errors?.pattern"
+              >
+                Por favor informe somente números.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6" [formGroup]="empregoForm">
+              <label for="mesFinal">Mês final</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('mesFinal').invalid,
+                  'is-valid': empregoForm.get('mesFinal').valid
+                }"
+                class="form-control"
+                [(ngModel)]="emprego.mesFinal"
+                formControlName="mesFinal"
+                name="mesFinal"
+                id="mesFinal"
+              >
+                <option *ngFor="let m of meses" [value]="m.value">
+                  {{ m.name }}</option
+                >
+              </select>
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('mesFinal').errors?.required"
+              >
+                Por favor informe o mês que parou de trabalhar.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6" [formGroup]="empregoForm">
+              <label for="anoFinal">Ano Final</label>
+              <input
+                [ngClass]="{
+                  'is-invalid': empregoForm.get('anoFinal').invalid,
+                  'is-valid': empregoForm.get('anoFinal').valid
+                }"
+                class="form-control"
+                formControlName="anoFinal"
+                maxlength="4"
+                pattern="[0-9]*"
+                required
+                placeholder="Ano"
+                [(ngModel)]="emprego.anoFinal"
+                name="anoFinal"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('anoFinal').errors?.required"
+              >
+                Por favor informe o ano que parou de trabalhar.
+              </div>
+              <div
+                class="alert alert-danger"
+                *ngIf="empregoForm.get('anoFinal').errors?.pattern"
+              >
+                Por favor informe somente números.
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <input
+                class="form-control"
+                type="checkbox"
+                id="flUltimoEmprego"
+                name="flUltimoEmprego"
+                [(ngModel)]="emprego.flUltimoEmprego"
+              />
+              <label class="form-check-label" for="flUltimoEmprego"
+                >Último emprego?</label
+              >
+            </div>
+            <div
+              *ngIf="emprego.flUltimoEmprego == true"
+              class="form-group col-md-6"
+            >
+              <label for="flUltimoEmprego">Último salário:</label>
+              <input
+                class="form-control"
+                id="flUltimoEmprego"
+                placeholder="valor"
+                [(ngModel)]="emprego.ultimoSalario"
+                name="ultimoSalario"
+              />
+            </div>
+
+            <div
+              *ngIf="emprego.flUltimoEmprego == true"
+              class="form-group col-md-6"
+            >
+              <label for="motivoSaida">Motivo da saída:</label>
+              <input
+                class="form-control"
+                id="motivoSaida"
+                placeholder="Ex: acabou contrato."
+                [(ngModel)]="emprego.motivoSaida"
+                name="motivoSaida"
+              />
+            </div>
+            <div class="form-group col-md-12 text-right">
+              <button class="btn btn-danger" (click)="dismiss('salvar')">
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div
+  bsModal
+  #confirmModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ignoreBackdropClick: true, keyboard: false}"
+  id="language"
+>
+  <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="confirmModal.hide()" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" (click)="delete(id)" class="btn btn-primary btn-danger">Deletar</button>
+      </div>
+    </div>
+  </div>
+</div>

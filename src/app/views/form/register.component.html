@@ -1,0 +1,64 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <div class="row">
+        <div class="col" (click)="onClick('dados')">
+          <div class="card">
+            <div class="card-body" [ngClass]="stepUtil.getUltimoPasso() >= 0 ? 'bg-secondary' : ''">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-people"></i>
+              </div>
+              <small class="text-muted text-uppercase font-weight-bold">Dados pessoais</small>
+            </div>
+          </div>
+        </div><!--/.col-->
+        <div class="col" (click)="onClick('familia')" >
+          <div class="card">
+            <div class="card-body" [ngClass]="stepUtil.getUltimoPasso() >= 1 ? 'bg-secondary' : ''">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-user-follow"></i>
+              </div>
+              <small class="text-muted text-uppercase font-weight-bold">Familiares</small>
+            </div>
+          </div>
+        </div><!--/.col-->
+        <div class="col" (click)="onClick('empregos')">
+          <div class="card">
+            <div class="card-body" [ngClass]="stepUtil.getUltimoPasso() >= 2 ? 'bg-secondary' : ''">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-basket-loaded"></i>
+              </div>
+              <small class="text-muted text-uppercase font-weight-bold">Empregos</small>
+            </div>
+          </div>
+        </div><!--/.col-->
+        <div class="col" (click)="onClick('questionario')" >
+          <div class="card">
+            <div class="card-body" [ngClass]="stepUtil.getUltimoPasso() >= 3 ? 'bg-secondary' : ''">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-pie-chart"></i>
+              </div>
+              <small class="text-muted text-uppercase font-weight-bold">Questionário</small>
+            </div>
+          </div>
+        </div><!--/.col-->
+        <div class="col" (click)="onClick('arquivos')">
+          <div class="card">
+            <div class="card-body" [ngClass]="stepUtil.getUltimoPasso() >= 4 ? 'bg-secondary' : ''">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-speedometer"></i>
+              </div>
+              <small class="text-muted text-uppercase font-weight-bold">Foto</small>
+            </div>
+          </div>
+        </div><!--/.col-->
+      </div><!--/.row-->
+      <div class="container">
+        <app-dados-pessoais *ngIf="stepUtil.getPassoCadastro() == 0" [stepUtil]="stepUtil"></app-dados-pessoais>
+        <app-familiares *ngIf="stepUtil.getPassoCadastro() == 1" [stepUtil]="stepUtil"></app-familiares>
+        <app-empregos *ngIf="stepUtil.getPassoCadastro() == 2" [stepUtil]="stepUtil"></app-empregos>
+        <app-questionario *ngIf="stepUtil.getPassoCadastro() == 3" [stepUtil]="stepUtil"></app-questionario>
+        <app-foto *ngIf="stepUtil.getPassoCadastro() == 4" [stepUtil]="stepUtil"></app-foto>
+      </div>
+    </div><!--/.col-->
+</div>

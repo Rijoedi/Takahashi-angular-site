@@ -1,0 +1,598 @@
+<div class="form-row">
+  <div class="form-group col-md-12" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': dadosPessoaisForm.get('nomeCompleto').invalid,
+        'is-valid': dadosPessoaisForm.get('nomeCompleto').valid
+      }"
+      formControlName="nomeCompleto"
+      required
+      placeholder="Nome / Ex: Leandro Takahashi"
+      [(ngModel)]="cliente.nomeCompleto"
+      name="nomeCompleto"
+      id="nomeCompleto"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('nomeCompleto').errors?.required"
+    >
+      Por favor digite seu nome.
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('nomeCompleto').errors?.minlength"
+    >
+      Por favor digite seu nome completo.
+    </div>
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      type="text"
+      onfocus="(this.type='date')"
+      onblur="(this.type='text')"
+      [(ngModel)]="cliente.dataNascimento"
+      name="dataNascimento"
+      placeholder="Data de nascimento"
+      id="dataNascimento"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <select
+      class="form-control"
+      [(ngModel)]="cliente.sexo"
+      name="sexo"
+      id="sexo"
+    >
+      <option [value]="Sexo" disabled selected="selected">Sexo</option>
+      <option *ngFor="let s of sexo" [value]="s.value">{{ s.name }}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-12">
+    <input
+      class="form-control"
+      placeholder="Endereço"
+      [(ngModel)]="cliente.endereco"
+      name="endereco"
+      id="endereco"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      placeholder="Bairro"
+      [(ngModel)]="cliente.bairro"
+      name="bairro"
+      id="bairro"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      placeholder="Cidade"
+      [(ngModel)]="cliente.cidade"
+      name="cidade"
+      id="cidade"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      placeholder="Estado"
+      [(ngModel)]="cliente.estado"
+      name="estado"
+      id="estado"
+    />
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      [textMask]="{ mask: cep }"
+      formControlName="cep"
+      pattern="[0-9]*-[0-9]*"
+      placeholder="CEP"
+      [(ngModel)]="cliente.cep"
+      name="cep"
+      id="cep"
+    />
+  </div>
+  <div class="form-group col-md-12" [formGroup]="dadosPessoaisForm">
+    <ngx-intl-tel-input
+      [onlyCountries]="[CountryISO.Brazil, CountryISO.Japan]"
+      [enableAutoCountrySelect]="false"
+      [enablePlaceholder]="true"
+      [searchCountryFlag]="true"
+      [selectFirstCountry]="false"
+      [selectedCountryISO]="selectedCountryISO"
+      [maxLength]="13"
+      [tooltipField]="TooltipLabel.Name"
+      [phoneValidation]="true"
+      [separateDialCode]="true"
+      [(ngModel)]="telefone"
+      formControlName="telefone"
+      (ngModelChange)="checkNumber()"
+      name="telefone"
+      [id]="telefone"
+    >
+    </ngx-intl-tel-input>
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('telefone').errors?.required"
+    >
+      Por favor digite seu número de telefone.
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        dadosPessoaisForm.get('telefone').invalid &&
+        !dadosPessoaisForm.get('telefone').errors?.required
+      "
+    >
+      Por favor digite seu número de telefone corretamente.
+    </div>
+  </div>
+  <div class="form-group col-md-12" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': dadosPessoaisForm.get('eMail').invalid,
+        'is-valid': dadosPessoaisForm.get('eMail').valid
+      }"
+      formControlName="eMail"
+      required
+      placeholder="Email / Ex: contact@takahashigroupjapan.com"
+      [(ngModel)]="cliente.email"
+      name="email"
+      id="email"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('eMail').errors?.required"
+    >
+      Por favor digite seu email.
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('eMail').errors?.email"
+    >
+      Por favor digite um e-mail válido !
+    </div>
+  </div>
+  <div
+    *ngIf="!isJapan()"
+    class="form-group col-md-6"
+    [formGroup]="dadosPessoaisForm"
+  >
+    <input
+      required
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': dadosPessoaisForm.get('cpfZairyuCard').invalid,
+        'is-valid': dadosPessoaisForm.get('cpfZairyuCard').valid
+      }"
+      [textMask]="{ mask: cpf }"
+      formControlName="cpfZairyuCard"
+      placeholder="CPF"
+      [(ngModel)]="cliente.cpf"
+      name="cpf"
+      id="cpf"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('cpfZairyuCard').errors?.required"
+    >
+      Por favor digite seu cpf.
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('cpfZairyuCard').getError('cpfNotValid')"
+    >
+      Por favor digite um cpf válido !
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('cpfZairyuCard').errors?.minlength"
+    >
+      Por favor digite um cpf válido !
+    </div>
+  </div>
+  <div
+    *ngIf="isJapan()"
+    class="form-group col-md-6"
+    [formGroup]="dadosPessoaisForm"
+  >
+    <input
+      required
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': dadosPessoaisForm.get('cpfZairyuCard').invalid,
+        'is-valid': dadosPessoaisForm.get('cpfZairyuCard').valid
+      }"
+      formControlName="cpfZairyuCard"
+      placeholder="Nº do zairyu card"
+      [(ngModel)]="cliente.zairyuCard"
+      name="zairyuCard"
+      id="zairyuCard"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('cpfZairyuCard').errors?.required"
+    >
+      Por favor digite o número do seu zairyu card.
+    </div>
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      [textMask]="{ mask: rg }"
+      placeholder="RG"
+      [(ngModel)]="cliente.rg"
+      name="rg"
+      id="rg"
+    />
+  </div>
+  <div class="form-group col-md-12">
+    <input
+      class="form-control"
+      placeholder="Profissão"
+      [(ngModel)]="cliente.profissao"
+      name="profissao"
+      id="profissao"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <select
+      class="form-control"
+      [(ngModel)]="cliente.tipoVisto"
+      name="visto"
+      id="visto"
+    >
+      <option [value]="Tipo" disabled selected="selected">Tipo de visto</option>
+      <option *ngFor="let t of visto" [value]="t.value">{{ t.name }}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      type="text"
+      onfocus="(this.type='date')"
+      onblur="(this.type='text')"
+      [(ngModel)]="cliente.vencimentoVisto"
+      name="vencimentoVisto"
+      placeholder="Vencimento do visto"
+      id="vencimentoVisto"
+    />
+  </div>
+  <div
+    class="form-group col-md-12"
+    style="background: white; border-radius: 6px;"
+  >
+    <p>Carteira de Habilitação</p>
+    <div
+      *ngFor="let item of checkboxList"
+      class="form-group form-check-inline mr-1"
+    >
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [(ngModel)]="item.isChecked"
+        name="isChecked"
+        (change)="listChange(item)"
+        id="item.id"
+      />
+      <label class="form-check-label" for="item.id">{{ item.name }}</label>
+    </div>
+  </div>
+  <div class="form-group col-md-12">
+    <input
+      class="form-control"
+      placeholder="Número de passaporte"
+      [(ngModel)]="cliente.numeroPassaporte"
+      name="numeroPassaporte"
+      id="numeroPassaporte"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      placeholder="Nacionalidade"
+      [(ngModel)]="cliente.nacionalidade"
+      name="nacionalidade"
+      id="nacionalidade"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <input
+      class="form-control"
+      placeholder="Cidade natal / Estado"
+      [(ngModel)]="cliente.cidadeNatal"
+      name="cidadeNatal"
+      id="cidadeNatal"
+    />
+  </div>
+  <div class="form-group col-md-6">
+    <select
+      class="form-control"
+      [(ngModel)]="cliente.estadoCivil"
+      name="estadoCivil"
+      id="estadoCivil"
+    >
+      <option [value]="Estado" disabled selected="selected"
+        >Estado civil</option
+      >
+      <option *ngFor="let e of estadoCivil" [value]="e.value">{{
+        e.name
+      }}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-6">
+    <select
+      class="form-control"
+      [(ngModel)]="cliente.tipoSanguineo"
+      name="sangue"
+      id="sangue"
+    >
+      <option [value]="Tipo" disabled selected="selected"
+        >Tipo sanguíneo</option
+      >
+      <option *ngFor="let sa of sangue" [value]="sa.value">{{
+        sa.name
+      }}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="3"
+      formControlName="altura"
+      pattern="[0-9]*"
+      placeholder="Altura / Ex: 180cm"
+      [(ngModel)]="cliente.altura"
+      name="altura"
+      id="altura"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('altura').errors?.pattern"
+    >
+      Por favor insira sual altura em centímetro.
+    </div>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="3"
+      formControlName="manequin"
+      placeholder="Uniforme / Ex: LL"
+      [(ngModel)]="cliente.manequim"
+      name="manequim"
+      id="manequim"
+    />
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      formControlName="peso"
+      pattern="[0-9]*"
+      placeholder="Peso / Ex: 80 "
+      [(ngModel)]="cliente.peso"
+      name="peso"
+      id="peso"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('peso').errors?.pattern"
+    >
+      Por favor insira apenas números.
+    </div>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="2"
+      formControlName="calcado"
+      pattern="[0-9]*"
+      placeholder="Calçado / Ex: 42"
+      [(ngModel)]="cliente.calcado"
+      name="calcado"
+      id="calcado"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('calcado').errors?.pattern"
+    >
+      Por favor insira apenas números.
+    </div>
+  </div>
+  <div class="form-group col-md-12">
+    <select
+      class="form-control"
+      [(ngModel)]="cliente.grauEscolaridade"
+      name="escolaridade"
+      id="escolaridade"
+    >
+      <option [value]="Escolaridade" disabled selected="selected"
+        >Escolaridade</option
+      >
+      <option *ngFor="let e of escolaridade" [value]="e.value">{{
+        e.name
+      }}</option>
+    </select>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="3"
+      formControlName="conversacao"
+      pattern="[0-9]*"
+      placeholder="Conversação (%) / Ex: 20"
+      [(ngModel)]="cliente.conversacao"
+      name="conversacao"
+      id="conversacao"
+    />
+    <small *ngIf="!dadosPessoaisForm.get('conversacao').errors?.pattern"
+      >Quantos % você fala em japonês</small
+    >
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('conversacao').errors?.pattern"
+    >
+      Por favor insira apenas números.
+    </div>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="3"
+      formControlName="compreensao"
+      pattern="[0-9]*"
+      placeholder="Compreensão (%) / Ex: 20"
+      [(ngModel)]="cliente.compreensao"
+      name="compreensao"
+      id="compreensao"
+    />
+    <small *ngIf="!dadosPessoaisForm.get('compreensao').errors?.pattern"
+      >Quantos % você compreende em japonês</small
+    >
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('compreensao').errors?.pattern"
+    >
+      Por favor insira apenas números.
+    </div>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="3"
+      formControlName="leitura"
+      pattern="[0-9]*"
+      placeholder="Leitura (%) / Ex: 20"
+      [(ngModel)]="cliente.leitura"
+      name="leitura"
+      id="leitura"
+    />
+    <small *ngIf="!dadosPessoaisForm.get('leitura').errors?.pattern"
+      >Quantos % você lê em japonês? (Hiragana, Katakana)</small
+    >
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('leitura').errors?.pattern"
+    >
+      Por favor insira apenas números.
+    </div>
+  </div>
+  <div class="form-group col-md-6" [formGroup]="dadosPessoaisForm">
+    <input
+      class="form-control"
+      maxlength="3"
+      formControlName="escrita"
+      pattern="[0-9]*"
+      placeholder="Escrita (%) / Ex: 20"
+      [(ngModel)]="cliente.escrita"
+      name="escrita"
+      id="escrita"
+    />
+    <small *ngIf="!dadosPessoaisForm.get('escrita').errors?.pattern"
+      >Quantos % você escreve em japonês? (Hiragana, Katakana)</small
+    >
+    <div
+      class="alert alert-danger"
+      *ngIf="dadosPessoaisForm.get('escrita').errors?.pattern"
+    >
+      Por favor insira apenas números.
+    </div>
+  </div>
+  <div class="form-group col-md-12">
+    <p>個人情報保護方針について / Termo de concordância</p>
+    <p>
+      当社のアプリでは応募・登録のために記入した全ての情報（個人情報含む）については、採用選考にかかる採否判定のために利用いたします。
+      取得した情報は、法令等に基づく場合および次の場合を除き事前に本人の同意を得ることなく第三者に提供いたしません。
+    </p>
+    <p>
+      A nossa empresa utilizará todas as informações (incluindo informações
+      pessoais) obtidas no cadastro do aplicativo, para classificar a aceitação
+      ou rejeição da seleção de emprego. As informações adquiridas não serão
+      fornecidas a terceiros sem o consentimento prévio da pessoa, exceto em
+      leis e regularmentos.
+    </p>
+    <input type="checkbox" [(ngModel)]="term" name="term" id="term" />
+    <label class="form-check-label" for="term">Li e aceito</label>
+  </div>
+  <button type="submit" class="btn btn-danger btn-block" (click)="onSubmit()">
+    Salvar
+  </button>
+  <ngx-loading
+    [show]="loading"
+    [config]="{
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+</div>
+
+<div
+  bsModal
+  #languageModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ignoreBackdropClick: true, keyboard: false}"
+  id="language"
+>
+  <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer" style="display: block ruby;">
+        <button class="language_button" (click)="localidade(1)"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><circle style="fill:#6DA544;" cx="256" cy="256" r="256"/><polygon style="fill:#FFDA44;" points="256,100.174 467.478,256 256,411.826 44.522,256 "/><circle style="fill:#F0F0F0;" cx="256" cy="256" r="89.043"/><g><path style="fill:#0052B4;" d="M211.478,250.435c-15.484,0-30.427,2.355-44.493,6.725c0.623,48.64,40.227,87.884,89.015,87.884c30.168,0,56.812-15.017,72.919-37.968C301.362,272.579,258.961,250.435,211.478,250.435z"/><path style="fill:#0052B4;" d="M343.393,273.06c1.072-5.524,1.651-11.223,1.651-17.06c0-49.178-39.866-89.043-89.043-89.043c-36.694,0-68.194,22.201-81.826,53.899c12.05-2.497,24.526-3.812,37.305-3.812C263.197,217.043,309.983,238.541,343.393,273.06z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></button>
+        <button class="language_button" (click)="localidade(2)"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><circle style="fill:#F0F0F0;" cx="256" cy="256" r="256"/><circle style="fill:#D80027;" cx="256" cy="256" r="111.304"/><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #dangerModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="dangerModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="dangerModal.hide()"
+        >
+          {{ buttonPrimary }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
