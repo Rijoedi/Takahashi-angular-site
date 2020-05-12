@@ -59,7 +59,7 @@ export class EmpregosComponent implements OnInit {
     }
   }
 
-  delete(id) {
+  delete() {
     this.loading = true;
     this.empregoService.deleteEmprego(this.empregoId).subscribe(
       () => {
