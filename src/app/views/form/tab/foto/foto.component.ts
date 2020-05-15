@@ -30,6 +30,7 @@ export class FotoComponent implements OnInit {
   //camera Options
   linkPicture: any;
   timeStamp: number;
+  hasCamera = true;
 
   //Modal
   title: string;
@@ -47,6 +48,9 @@ export class FotoComponent implements OnInit {
     WebcamUtil.getAvailableVideoInputs().then(
       (mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
+        if(mediaDevices.length == 0){
+          this.hasCamera = false;
+        }
       }
     );
   }

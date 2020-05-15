@@ -92,7 +92,7 @@ export class DadosPessoaisComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.validaFormulario();
-    this.cep = this.setCpfMask();
+    this.cep = this.setCepMask();
     if (this.dataService.getCliente() != undefined) {
       this.term = true;
       this.setRangeDate();
@@ -117,11 +117,11 @@ export class DadosPessoaisComponent implements OnInit, AfterViewInit {
   localidade(localidade: number) {
     this.dataService.setLocalidade(localidade);
     this.setLocalTel();
-    this.cep = this.setCpfMask();
+    this.cep = this.setCepMask();
     this.languageModal.hide();
   }
 
-  setCpfMask() {
+  setCepMask() {
     if (this.isJapan()) {
       return [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
     } else {

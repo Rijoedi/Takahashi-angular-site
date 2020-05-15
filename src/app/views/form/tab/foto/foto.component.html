@@ -28,7 +28,7 @@
           <div class="snapshot" style="margin: 20px;" *ngIf="webcamImage">
             <img [src]="webcamImage.imageAsDataUrl" />
           </div>
-          <div class="snapshot" style="margin: 20px;" *ngIf="!webcamImage">
+          <div class="snapshot" style="margin: 20px;" *ngIf="!webcamImage && linkPicture">
             <img [src]="linkPicture" [height]="500" [width]="500" />
           </div>
           <button
@@ -79,7 +79,7 @@
   />
   <button
     type="button"
-    *ngIf="!webcamImage && !showWebcam"
+    *ngIf="!webcamImage && !showWebcam && hasCamera"
     class="btn btn-danger btn-block"
     (click)="showWebcamBtn()"
   >

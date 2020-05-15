@@ -32,7 +32,7 @@
             </div>
           </div>
         </div><!--/.col-->
-        <div class="col" (click)="onClick('questionario')" >
+        <div class="col" (click)="onClick('questionario')" *ngIf="!isJapan()">
           <div class="card">
             <div class="card-body" [ngClass]="stepUtil.getUltimoPasso() >= 3 ? 'bg-secondary' : ''">
               <div class="h1 text-muted text-right mb-4">
@@ -57,7 +57,7 @@
         <app-dados-pessoais *ngIf="stepUtil.getPassoCadastro() == 0" [stepUtil]="stepUtil"></app-dados-pessoais>
         <app-familiares *ngIf="stepUtil.getPassoCadastro() == 1" [stepUtil]="stepUtil"></app-familiares>
         <app-empregos *ngIf="stepUtil.getPassoCadastro() == 2" [stepUtil]="stepUtil"></app-empregos>
-        <app-questionario *ngIf="stepUtil.getPassoCadastro() == 3" [stepUtil]="stepUtil"></app-questionario>
+        <app-questionario *ngIf="!isJapan()" [stepUtil]="stepUtil"></app-questionario>
         <app-foto *ngIf="stepUtil.getPassoCadastro() == 4" [stepUtil]="stepUtil"></app-foto>
       </div>
     </div><!--/.col-->
