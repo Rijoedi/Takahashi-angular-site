@@ -4,18 +4,18 @@ import { CommonModule } from "@angular/common";
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 // Component routing
-import { LoginRoutingModule } from "./login-routing.module";
+import { RecoverPasswordRoutingModule } from "./recover-password-routing.module";
 
 // Component
-import { LoginComponent } from "./login.component";
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'; 
+import { RecoverPasswordComponent } from './recover-password.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    LoginRoutingModule,
+    RecoverPasswordRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     ModalModule.forRoot(),
@@ -23,6 +23,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     NgxIntlTelInputModule,
     BsDropdownModule.forRoot(),
   ],
-  declarations: [LoginComponent],
+  declarations: [RecoverPasswordComponent],
 })
-export class LoginModule {}
+export class RecoverPasswordModule {}

@@ -6,6 +6,7 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
+import { RecoverPasswordComponent } from './views/recover-password/recover-password.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'register',
         loadChildren: () => import('./views/form/register.module').then(m => m.RegisterModule)
+      },
+      {
+        path: 'change',
+        loadChildren: () => import('./views/recover-password/recover-password.module').then(m => m.RecoverPasswordModule)
       },
     ]
   },
