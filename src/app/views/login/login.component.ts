@@ -8,8 +8,8 @@ import { FamiliarService } from "../../services/familiarService.service";
 import { DataService } from "../../services/data.service";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
-import { CountryISO, TooltipLabel } from 'ngx-intl-tel-input';
-import { ThrowStmt } from '@angular/compiler';
+import { CountryISO, TooltipLabel } from "ngx-intl-tel-input";
+import { ThrowStmt } from "@angular/compiler";
 
 @Component({
   templateUrl: "login.component.html",
@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
   @ViewChild("dangerModal") public dangerModal: ModalDirective;
   @ViewChild("confirmModal") public confirmModal: ModalDirective;
 
-
   constructor(
     private router: Router,
     private clienteService: ClienteService,
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
   validaFormulario() {
     this.loginForm = this.formBuilder.group({
       eMail: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required]
+      password: ["", Validators.required],
     });
   }
 
@@ -80,7 +79,10 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl("/register");
           } else {
             this.loading = false;
-            this.openDangerModal("E-mail ou senha inválido", "Não foi encontrado nenhum cliente com o e-mail/senha fornecido.");
+            this.openDangerModal(
+              "E-mail ou senha inválido",
+              "Não foi encontrado nenhum cliente com o e-mail/senha fornecido."
+            );
           }
         },
         (err) => {
@@ -93,21 +95,42 @@ export class LoginComponent implements OnInit {
 
   recoverPassword() {
     this.loading = true;
-        this.clienteService.recoverPass(this.cliente)
-      .subscribe((resp) => {
+    if (this.isEmail) {
+      this.cliente.telefone = undefined;
+    } else {
+      this.cliente.email = undefined;
+    }
+    this.clienteService.recoverPass(this.cliente).subscribe(
+      (resp) => {
         if (this.dataService.getStatus() == 200) {
           this.loading = false;
-          if(this.isEmail){
-            this.openConfirmModal("Atenção!", "Foi enviado um link para resetar sua senha no email " + this.cliente.email + "" );
-          }else{
-            this.openConfirmModal("Atenção", "Foi enviado um link para resetar sua senha no número " + this.cliente.telefone + "" );
+          if (this.isEmail) {
+            this.openConfirmModal(
+              "Atenção!",
+              "Foi enviado um link para resetar sua senha no email " +
+                this.cliente.email +
+                ""
+            );
+          } else {
+            this.openConfirmModal(
+              "Atenção",
+              "Foi enviado um link para resetar sua senha no número " +
+                this.cliente.telefone +
+                ""
+            );
           }
         } else {
           this.loading = false;
-          if(this.isEmail){
-          this.openDangerModal("Erro", "Não foi encontrado nenhum cliente com o e-mail e data de nascimento fornecido.");
-          } else{
-            this.openDangerModal("Erro", "Não foi encontrado nenhum cliente com o telefone e data de nascimento fornecido.");
+          if (this.isEmail) {
+            this.openDangerModal(
+              "Erro",
+              "Não foi encontrado nenhum cliente com o e-mail e data de nascimento fornecido."
+            );
+          } else {
+            this.openDangerModal(
+              "Erro",
+              "Não foi encontrado nenhum cliente com o telefone e data de nascimento fornecido."
+            );
           }
         }
       },
@@ -123,7 +146,7 @@ export class LoginComponent implements OnInit {
     this.body = body;
     this.confirmModal.show();
   }
-  
+
   openDangerModal(title: string, body: string) {
     this.title = title;
     this.body = body;

@@ -55,6 +55,11 @@ export class FotoComponent implements OnInit {
     );
   }
 
+  voltarFotoAntiga(){
+    this.fileToUpload = undefined;
+    this.setLinkPicture();
+  }
+
   public setLinkPicture() {
     if (this.cliente.caminhoFoto != null) {
       let url =

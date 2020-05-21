@@ -32,12 +32,12 @@
                         name="email"
                       />
                     </div>
-                    <div
+                    <!-- <div
                       *ngIf="loginForm.get('eMail').errors?.required"
                       class="alert alert-danger"
                     >
                       Por favor digite seu email.
-                    </div>
+                    </div> -->
                     <div
                       *ngIf="loginForm.get('eMail').errors?.email"
                       class="alert alert-danger"
@@ -64,12 +64,12 @@
                         maxlength="8"
                       />
                     </div>
-                    <div
+                    <!-- <div
                       *ngIf="loginForm.get('password').errors?.required"
                       class="alert alert-danger"
                     >
                       Por favor digite sua senha.
-                    </div>
+                    </div> -->
                     <div class="row">
                       <div class="col-6">
                         <button type="button" [disabled]="loginForm.invalid" type="submit" class="btn btn-primary px-4">Login</button>

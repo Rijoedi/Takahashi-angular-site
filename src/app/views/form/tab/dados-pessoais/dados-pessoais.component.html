@@ -32,7 +32,8 @@
     <input
       class="form-control"
       type="date"
-      [(ngModel)]="cliente.dataNascimento"
+      [ngModel]="cliente.dataNascimento | date:'yyyy-MM-dd'" 
+      (ngModelChange)="cliente.dataNascimento = $event"
       name="dataNascimento"
       placeholder="Data de nascimento"
       id="dataNascimento"
@@ -80,7 +81,7 @@
     />
   </div>
   <div class="form-group col-md-6">
-    <label for="cidade">Cidade</label>
+    <label for="cidade">Estado</label>
     <input
       class="form-control"
       placeholder="Estado"
@@ -268,7 +269,8 @@
     <input
       class="form-control"
       type="date"
-      [(ngModel)]="cliente.vencimentoVisto"
+      [ngModel]="cliente.vencimentoVisto | date:'yyyy-MM-dd'" 
+      (ngModelChange)="cliente.vencimentoVisto = $event"
       name="vencimentoVisto"
       placeholder="Vencimento do visto"
       id="vencimentoVisto"
@@ -318,7 +320,7 @@
     <label for="cidadeNatal">Cidade natal </label>
     <input
       class="form-control"
-      placeholder="Estado"
+      placeholder="Ex: Sorocaba/Sp"
       [(ngModel)]="cliente.cidadeNatal"
       name="cidadeNatal"
       id="cidadeNatal"

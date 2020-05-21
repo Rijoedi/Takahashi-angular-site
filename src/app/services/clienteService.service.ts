@@ -7,6 +7,7 @@ import {
   HttpErrorResponse,
 } from "@angular/common/http";
 import { Cliente } from "../model/cliente";
+import { DataService } from './data.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -14,12 +15,14 @@ const httpOptions = {
 
 //const apiUrl = "http://localhost:8080/clientes/";
 const apiUrl = 'https://web-app-takahashi.herokuapp.com/clientes/';
+//const apiUrl = 'https://web-app-takahashi-dev.herokuapp.com/clientes/';
 
 @Injectable({
   providedIn: "root",
 })
 export class ClienteService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private dataService: DataService) {}
 
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(apiUrl).pipe(
@@ -50,6 +53,22 @@ export class ClienteService {
       ),
       catchError(this.handleError<Cliente>("addCliente"))
     );
+  }
+
+  recoverPass(cliente: Cliente) {
+    return this.http.post(apiUrl + "recover/", cliente).pipe(
+      tap(res=> {
+      this.dataService.setStatus(200)
+    }),
+      catchError(this.handleError("recoverPass")))
+  }
+
+  sendNewPass(dados) {
+    return this.http.post(apiUrl + "change/", dados).pipe(
+      tap(res=> {
+      this.dataService.setStatus(200)
+    }),
+      catchError(this.handleError("recoverPass")))
   }
 
   sendPhotoBase64(
@@ -107,6 +126,7 @@ export class ClienteService {
   
   private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
+      this.dataService.setStatus(error.status);
       console.error(error.status);
       return of(result as T);
     };

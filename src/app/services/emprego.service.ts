@@ -10,6 +10,7 @@ const httpOptions = {
 
 //const apiUrl = 'http://localhost:8080/empregos/';
 const apiUrl = 'https://web-app-takahashi.herokuapp.com/empregos/';
+//const apiUrl = 'https://web-app-takahashi-dev.herokuapp.com/empregos/';
 
 @Injectable({
   providedIn: 'root'

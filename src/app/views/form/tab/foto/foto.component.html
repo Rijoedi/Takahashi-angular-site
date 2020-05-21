@@ -26,10 +26,10 @@
             Tirar foto
           </button>
           <div class="snapshot" style="margin: 20px;" *ngIf="webcamImage">
-            <img [src]="webcamImage.imageAsDataUrl" />
+            <img [src]="webcamImage.imageAsDataUrl" class="col-md-4" />
           </div>
           <div class="snapshot" style="margin: 20px;" *ngIf="!webcamImage && linkPicture">
-            <img [src]="linkPicture" [height]="500" [width]="500" />
+            <img [src]="linkPicture" class="col-md-4" />
           </div>
           <button
             *ngIf="fileToUpload"
@@ -43,7 +43,7 @@
             *ngIf="fileToUpload"
             type="button"
             class="btn btn-danger btn-block"
-            (click)="setLinkPicture()"
+            (click)="voltarFotoAntiga()"
           >
             voltar a foto antiga
           </button>
