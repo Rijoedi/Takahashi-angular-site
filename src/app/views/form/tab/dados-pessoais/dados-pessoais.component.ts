@@ -239,28 +239,20 @@ export class DadosPessoaisComponent implements OnInit, AfterViewInit {
     this.dangerModal.show();
   }
 
-  // async messageEmail() {
-  //   const alert = await this.alertController.create({
-  //     header: "Cadastro em andamento!",
-  //     subHeader: "informações de login",
-  //     message:
-  //       "Por favor verifique seu e-mail (" +
-  //       this.cliente.email.toLowerCase() +
-  //       ") para obter as informações de login.",
-  //     buttons: ["OK"],
-  //   });
-  //   await alert.present();
-  // }
-
   addCLiente() {
     this.loading = true;
     this.cliente.localidade = this.dataService.getLocalidade();
     this.clienteService.addCliente(this.cliente).subscribe(
       (data) => {
-        if (data != null) {
+        if (this.dataService.getStatus() == 200) {
           this.loading = false;
           this.dataService.setCliente(data);
           this.stepUtil.proximoPasso();
+        } else if (this.dataService.getStatus() == 403) {
+          this.setModal(
+            "Erro",
+            "Cliente já cadastrado em nosso sistema, por favor verifique seu e-mail para obter as informações de login"
+          );
         } else {
           this.loading = false;
           this.setModal(

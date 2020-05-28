@@ -66,6 +66,8 @@ export class FotoComponent implements OnInit {
         "https://files.takahashigroupjapan.com/" + this.cliente.caminhoFoto;
       this.linkPicture = url;
       this.timeStamp = new Date().getTime();
+    } else {
+      this.linkPicture = "https://files.takahashigroupjapan.com/Takahashi/FotosClientes/3x4.jpg";
     }
     this.updateLinkPicture();
   }

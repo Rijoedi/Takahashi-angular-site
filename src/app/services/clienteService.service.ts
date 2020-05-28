@@ -49,7 +49,7 @@ export class ClienteService {
   addCliente(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(apiUrl + "add/", cliente).pipe(
       tap((cliente: Cliente) =>
-        console.log(`adicionou o cliente com w/ nome=${cliente.nomeCompleto}`)
+        this.dataService.setStatus(200)
       ),
       catchError(this.handleError<Cliente>("addCliente"))
     );
